@@ -31,7 +31,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const newPostList = [...postList];
+  const newPostList = [...post_db];
 
   const post = {
     _id: uuid(),
