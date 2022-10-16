@@ -30,6 +30,26 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/:userId", (req, res) => {
+  const userId = req.params.userId;
+  const postList = [...post_db];
+  const post = postList.find((item) => item.id === userId);
+
+  if (post) {
+    res.status(200).json({
+      message: "get post success",
+      data: post,
+    });
+
+    return;
+  }
+
+  res.status(200).json({
+    message: "get post failed",
+    data: null,
+  });
+});
+
 router.post("/", (req, res) => {
   const newPostList = [...post_db];
 
