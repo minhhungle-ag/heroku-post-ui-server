@@ -1,12 +1,29 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 const postRouters = require("./api/routes/post");
+const appConstants = require("./constants/appConstants");
 
 const app = express();
 
+(async () => {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://haless132:post-ui-db@cluster0.rkucfd4.mongodb.net/?retryWrites=true&w=majority`
+    );
+
+    console.log("connected mongoose");
+  } catch (error) {
+    console.log(error);
+  }
+})();
+
+mongoose.Promise = global.Promise;
+
 app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
