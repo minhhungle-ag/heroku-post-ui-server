@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/posts", postRouters);
+app.use("/posts", postRouters);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
