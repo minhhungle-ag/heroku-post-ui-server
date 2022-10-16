@@ -1,160 +1,55 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const post_db = require("../../data/post.json");
 const router = express.Router();
-
-const Post = require("../models/post");
-const checkAuth = require("../middleware/checkAuth");
-
-const currentLimit = 5;
-const currentPage = 1;
+const writeToFile = require("../../utils/common");
+const uuid = require("uuid").v4;
+const appConstants = require("../../constants/appConstants");
 
 router.get("/", (req, res) => {
-  if (req.query.page <= 0) {
-    res.status(500).json({
-      message: "page must be more than 0",
-    });
-  }
+  const page = req.query.page || appConstants.CURRENT_PAGE;
+  const limit = req.query.limit || appConstants.CURRENT_LIMIT;
+  const startIdx = (page - 1) * limit;
+  const endIdx = page * limit;
 
-  Post.find()
-    .select("title author updatedAt createAt description imageUrl")
-    .exec()
-    .then((data) => {
-      if (Array.isArray(data)) {
-        const page = req.query.page || currentPage;
-        const limit = req.query.limit || currentLimit;
-        const startIdx = (page - 1) * limit;
-        const endIdx = page * limit;
+  const postList = [...post_db];
+  const totalPage = Math.ceil(postList.length / limit);
+  const total = postList.length;
 
-        const postList = [...data];
-        const totalPage = Math.ceil(postList.length / limit);
-        const total = postList.length;
+  const newPostList = postList.slice(startIdx, endIdx);
 
-        const newPostList = postList.slice(startIdx, endIdx);
-
-        res.status(200).json({
-          data: {
-            message: "get all success",
-            data: newPostList,
-            pagination: {
-              page: page,
-              limit: limit,
-              total: total,
-              total_page: totalPage,
-            },
-          },
-        });
-      }
-    });
-});
-
-router.get("/:postId", (req, res) => {
-  const postId = req.params.postId;
-
-  Post.findById(postId)
-    .select("title author updatedAt createAt imageUrl")
-    .exec()
-    .then((response) => {
-      console.log("response: ", response);
-      if (response) {
-        res.status(200).json({
-          data: {
-            data: response,
-          },
-        });
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).json({
-        error: {
-          message: error.message,
-        },
-      });
-    });
+  res.status(200).json({
+    data: {
+      data: newPostList,
+      pagination: {
+        page: page,
+        limit: limit,
+        total: total,
+        total_page: totalPage,
+      },
+    },
+  });
 });
 
 router.post("/", (req, res) => {
-  const post = new Post({
-    _id: new mongoose.Types.ObjectId(),
+  const newPostList = [...postList];
+
+  const post = {
+    _id: uuid(),
     title: req.body.title,
     author: req.body.author,
-    avatar: req.body.avatar,
     short_description: req.body.short_description,
     description: req.body.description,
     createAt: new Date(),
     imageUrl: req.body.imageUrl,
+  };
+
+  const data = [post, ...newPostList];
+  writeToFile(data, "./data/post.json");
+
+  res.status(200).json({
+    data: {
+      data: post,
+    },
   });
-
-  post
-    .save()
-    .then((result) => {
-      if (result) {
-        res.status(200).json({
-          data: result,
-        });
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).json({
-        error: {
-          message: error.message,
-        },
-      });
-    });
 });
-
-router.patch("/:postId", checkAuth, (req, res) => {
-  const postId = req.params.postId;
-
-  Post.updateOne(
-    { _id: postId },
-    {
-      $set: {
-        title: req.body.title,
-        author: req.body.author,
-        description: req.body.description,
-        updatedAt: new Date(),
-        imageUrl: req.body.imageUrl,
-      },
-    }
-  )
-    .exec()
-    .then((response) => {
-      res.status(200).json({
-        message: `Edit post success`,
-        data: response,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).json({
-        error: {
-          message: error.message,
-        },
-      });
-    });
-});
-
-router.delete("/:postId", checkAuth, (req, res) => {
-  const postId = req.params.postId;
-
-  Post.remove({ _id: postId })
-    .exec()
-    .then((response) => {
-      res.status(200).json({
-        message: `Deleted post by ${postId}`,
-        data: response,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).json({
-        error: {
-          message: error.message,
-        },
-      });
-    });
-});
-
 module.exports = router;
