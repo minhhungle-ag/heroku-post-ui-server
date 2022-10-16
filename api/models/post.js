@@ -9,7 +9,7 @@ const postSchema = mongoose.Schema({
   createdAt: Number,
   updatedAt: Number,
   imageUrl: { type: String, required: true },
-  avatar: { type: String, required: true },
+  avatar: { type: String },
 });
 
 module.exports = mongoose.model("Post", postSchema);
