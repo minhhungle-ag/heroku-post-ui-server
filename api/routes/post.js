@@ -37,6 +37,7 @@ router.post("/", (req, res) => {
     _id: uuid(),
     title: req.body.title,
     author: req.body.author,
+    avatar: req.body.avatar,
     short_description: req.body.short_description,
     description: req.body.description,
     createAt: new Date(),
