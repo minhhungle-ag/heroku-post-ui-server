@@ -45,8 +45,10 @@ router.get("/:userId", (req, res) => {
   }
 
   res.status(200).json({
-    message: "get post failed",
-    data: null,
+    data: {
+      message: "get post failed",
+      data: null,
+    },
   });
 });
 
