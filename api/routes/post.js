@@ -37,8 +37,10 @@ router.get("/:userId", (req, res) => {
 
   if (post) {
     res.status(200).json({
-      message: "get post success",
-      data: post,
+      data: {
+        message: "get post success",
+        data: post,
+      },
     });
 
     return;
