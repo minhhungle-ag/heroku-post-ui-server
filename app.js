@@ -4,11 +4,11 @@ const morgan = require("morgan");
 
 const postRouters = require("./api/routes/post");
 
+const app = express();
+
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-const app = express();
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
