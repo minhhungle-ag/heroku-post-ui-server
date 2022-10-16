@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
 
   res.status(200).json({
     data: {
-      data: data,
+      data: post,
     },
   });
 });
