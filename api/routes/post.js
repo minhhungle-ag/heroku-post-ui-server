@@ -84,7 +84,7 @@ router.patch('/:postId', (req, res) => {
     if (!newPostList[idx]) {
         res.status(200).json({
             status: 200,
-            message: 'Edit post faild!',
+            message: 'post not found!',
             data: null,
         })
 
