@@ -1,6 +1,5 @@
 const express = require('express')
 const uuid = require('uuid').v4
-
 const writeToFile = require('../../utils/common')
 const post_db = require('../../data/post.json')
 const appConstants = require('../../constants/appConstants')
