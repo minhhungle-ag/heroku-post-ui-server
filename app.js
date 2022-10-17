@@ -4,6 +4,7 @@ const morgan = require('morgan')
 
 const postRouters = require('./api/routes/post')
 const uploadRouters = require('./api/routes/upload')
+const userRouter = require('./api/routes/user')
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/posts', postRouters)
+app.use('/api/user', userRouter)
 app.use('/api/upload', uploadRouters)
 
 app.use((req, res, next) => {

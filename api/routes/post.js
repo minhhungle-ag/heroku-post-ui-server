@@ -3,7 +3,7 @@ const uuid = require('uuid').v4
 const writeToFile = require('../../utils/common')
 const post_db = require('../../data/post.json')
 const appConstants = require('../../constants/appConstants')
-
+const checkAuth = require('../middleware/checkAuth')
 const router = express.Router()
 
 const postList = [...post_db] //POST LIST MUST BE ARRAY
@@ -69,9 +69,9 @@ router.post('/', (req, res) => {
     writeToFile(newPostList, './data/post.json')
 
     res.status(200).json({
-        data: {
-            data: post,
-        },
+        status: 200,
+        message: 'create post success',
+        data: post,
     })
 })
 
