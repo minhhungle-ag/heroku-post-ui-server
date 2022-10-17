@@ -45,7 +45,7 @@ router.post('/', upload.single('imageUrl'), (req, res, next) => {
 
     res.status(200).json({
         message: 'upload success',
-        imageUrl: `http://${req.headers.host}/uploads/${req.file.filename}`, //https://heroku-post-ui.herokuapp.com
+        imageUrl: `https://${req.headers.host}/uploads/${req.file.filename}`, //https://heroku-post-ui.herokuapp.com
     })
 })
 
