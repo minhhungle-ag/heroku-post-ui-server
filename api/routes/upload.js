@@ -27,10 +27,10 @@ function fileFilter(req, file, cb) {
 
 const upload = multer({
     storage: storage,
-    // limits: {
-    //     fieldSize: 1024 * 607 * 5,
-    // },
-    // fileFilter: fileFilter,
+    limits: {
+        fieldSize: 1024 * 607 * 5,
+    },
+    fileFilter: fileFilter,
 })
 
 router.post('/', upload.single('imageUrl'), (req, res, next) => {
@@ -45,7 +45,7 @@ router.post('/', upload.single('imageUrl'), (req, res, next) => {
 
     res.status(200).json({
         message: 'upload success',
-        imageUrl: `https://heroku-post-ui.herokuapp.com/uploads/${req.file.filename}`, //https://heroku-post-ui.herokuapp.com
+        imageUrl: `http://${req.headers.host}/uploads/${req.file.filename}`, //https://heroku-post-ui.herokuapp.com
     })
 })
 
