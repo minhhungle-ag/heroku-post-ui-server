@@ -1,6 +1,5 @@
 const express = require('express')
 const multer = require('multer')
-const http = require('http')
 
 const router = express.Router()
 
@@ -46,7 +45,7 @@ router.post('/', upload.single('imageUrl'), (req, res, next) => {
 
     res.status(200).json({
         message: 'upload success',
-        imageUrl: `https://${req.headers.host}/uploads/${req.file.filename}`, //https://heroku-post-ui.herokuapp.com
+        imageUrl: `https://heroku-post-ui.herokuapp.com/uploads/${req.file.filename}`, //https://heroku-post-ui.herokuapp.com
     })
 })
 
