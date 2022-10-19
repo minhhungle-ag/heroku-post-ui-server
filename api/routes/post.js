@@ -9,8 +9,8 @@ const router = express.Router()
 const postList = [...post_db] //POST LIST MUST BE ARRAY
 
 router.get('/', (req, res) => {
-    const page = req.query.page || appConstants.CURRENT_PAGE
-    const limit = req.query.limit || appConstants.CURRENT_LIMIT
+    const page = parseInt(req.query.page) || appConstants.CURRENT_PAGE
+    const limit = parseInt(req.query.limit) || appConstants.CURRENT_LIMIT
     const startIdx = (page - 1) * limit
     const endIdx = page * limit
 
