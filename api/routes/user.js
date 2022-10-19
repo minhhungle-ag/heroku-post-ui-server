@@ -80,7 +80,7 @@ router.post('/signup', (req, res) => {
         res.status(200).json({
             status: 200,
             message: 'create user success',
-            data: user,
+            data: { data: user },
         })
     })
 })
@@ -123,7 +123,7 @@ router.post('/login', (req, res) => {
 
             res.status(200).json({
                 message: 'Auth successful',
-                token: token,
+                data: { token: token },
             })
 
             return
@@ -142,7 +142,7 @@ router.get('/:userId', (req, res) => {
     if (user) {
         res.status(200).json({
             message: 'get user success',
-            data: user,
+            data: { data: user },
         })
 
         return
