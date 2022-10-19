@@ -40,7 +40,7 @@ router.get('/:postId', (req, res) => {
     if (post) {
         res.status(200).json({
             message: 'get post success',
-            data: post,
+            data: { data: post },
         })
 
         return
@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'create post success',
-        data: post,
+        data: { data: post },
     })
 })
 
