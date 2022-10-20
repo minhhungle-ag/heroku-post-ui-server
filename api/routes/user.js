@@ -72,6 +72,7 @@ router.post('/signup', (req, res) => {
             description: req.body.description,
             avatar: req.body.avatar,
             gender: req.body.gender,
+            createdAt: new Date(),
         }
 
         const newUserList = [user, ...userList]
@@ -140,9 +141,21 @@ router.get('/:userId', (req, res) => {
     const user = userList.find((item) => item.id === userId)
 
     if (user) {
+        const newUser = {
+            id: user.id,
+            email: user.email,
+            role: 'user',
+            fullname: user.fullname,
+            age: user.age,
+            description: user.description,
+            avatar: user.avatar,
+            gender: user.gender,
+            createdAt: user.createdAt,
+        }
+
         res.status(200).json({
             message: 'get user success',
-            data: { data: user },
+            data: { data: newUser },
         })
 
         return
