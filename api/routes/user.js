@@ -130,24 +130,24 @@ router.get('/:userId', (req, res) => {
     const userId = req.params.userId
     const user = userList.find((item) => item.id === userId)
 
-    if (user) {
-        const newUser = {
-            id: user.id,
-            email: user.email,
-            role: 'user',
-            fullname: user.fullname,
-            age: user.age,
-            description: user.description,
-            avatar: user.avatar,
-            gender: user.gender,
-            createdAt: user.createdAt,
-        }
-        getResponse.onSuccess(res, { data: newUser })
-
+    if (!user) {
+        getResponse.onSuccess(res, { data: null })
         return
     }
 
-    getResponse.onSuccess(res, { data: null })
+    const newUser = {
+        id: user.id,
+        email: user.email,
+        role: 'user',
+        fullname: user.fullname,
+        age: user.age,
+        description: user.description,
+        avatar: user.avatar,
+        gender: user.gender,
+        createdAt: user.createdAt,
+    }
+
+    getResponse.onSuccess(res, { data: newUser })
 })
 
 router.delete('/:userId', (req, res) => {
