@@ -8,7 +8,24 @@ const router = express.Router()
 
 const postList = [...post_db] //POST LIST MUST BE ARRAY
 
+function stringToASCII(str) {
+    try {
+        return str
+            .replace(/[àáảãạâầấẩẫậăằắẳẵặ]/g, 'a')
+            .replace(/[èéẻẽẹêềếểễệ]/g, 'e')
+            .replace(/[đ]/g, 'd')
+            .replace(/[ìíỉĩị]/g, 'i')
+            .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, 'o')
+            .replace(/[ùúủũụưừứửữự]/g, 'u')
+            .replace(/[ỳýỷỹỵ]/g, 'y')
+    } catch {
+        return ''
+    }
+}
+
 router.get('/', (req, res) => {
+    const author = req.params.author
+
     const page = parseInt(req.query.page) || appConstants.CURRENT_PAGE
     const limit = parseInt(req.query.limit) || appConstants.CURRENT_LIMIT
     const startIdx = (page - 1) * limit
@@ -16,6 +33,31 @@ router.get('/', (req, res) => {
 
     const totalPage = Math.ceil(postList.length / limit)
     const total = postList.length
+
+    if (author) {
+        const newPostList = postList
+            .filter((item) =>
+                stringToASCII(item.author).includes(stringToASCII(author.toLowerCase()))
+            )
+            .slice(startIdx, endIdx)
+
+        res.status(200).json({
+            status: 200,
+            message: 'get posts success!',
+            data: {
+                data: newPostList,
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    total: total,
+                    total_page: totalPage,
+                },
+            },
+        })
+
+        return
+    }
+
     const newPostList = postList.slice(startIdx, endIdx)
 
     res.status(200).json({
