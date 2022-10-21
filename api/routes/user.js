@@ -7,6 +7,7 @@ const checkAuth = require('../middleware/checkAuth')
 const writeToFile = require('../../utils/common')
 const user_db = require('../../data/user.json')
 const appConstants = require('../../constants/appConstants')
+const getResponse = require('../../utils/response')
 
 const router = express.Router()
 
@@ -20,21 +21,20 @@ router.get('/', (req, res) => {
 
     const totalPage = Math.ceil(userList.length / limit)
     const total = userList.length
+
     const newUserList = userList.slice(startIdx, endIdx)
 
-    res.status(200).json({
-        status: 200,
-        message: 'get posts success!',
-        data: {
-            data: newUserList,
-            pagination: {
-                page: page,
-                limit: limit,
-                total: total,
-                total_page: totalPage,
-            },
+    const data = {
+        data: newUserList,
+        pagination: {
+            page: page,
+            limit: limit,
+            total: total,
+            total_page: totalPage,
         },
-    })
+    }
+
+    getResponse.onSuccess(res, data)
 })
 
 //SIGN UP
@@ -77,12 +77,7 @@ router.post('/signup', (req, res) => {
 
         const newUserList = [user, ...userList]
         writeToFile(newUserList, './data/user.json')
-
-        res.status(200).json({
-            status: 200,
-            message: 'create user success',
-            data: { data: user },
-        })
+        getResponse.onSuccess(res, { data: user })
     })
 })
 
@@ -122,17 +117,12 @@ router.post('/login', (req, res) => {
                 }
             )
 
-            res.status(200).json({
-                message: 'Auth successful',
-                data: { token: token },
-            })
+            getResponse.onSuccess(res, { data: { token: token, userId: user.id } })
 
             return
         }
 
-        res.status(401).json({
-            message: 'Auth failed, password is not correct ',
-        })
+        getResponse.onFail(res, { data: null })
     })
 })
 
@@ -152,19 +142,12 @@ router.get('/:userId', (req, res) => {
             gender: user.gender,
             createdAt: user.createdAt,
         }
-
-        res.status(200).json({
-            message: 'get user success',
-            data: { data: newUser },
-        })
+        getResponse.onSuccess(res, { data: newUser })
 
         return
     }
 
-    res.status(400).json({
-        message: 'not found',
-        data: null,
-    })
+    getResponse.onSuccess(res, { data: null })
 })
 
 router.delete('/:userId', (req, res) => {

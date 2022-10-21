@@ -5,6 +5,7 @@ const post_db = require('../../data/post.json')
 const appConstants = require('../../constants/appConstants')
 const checkAuth = require('../middleware/checkAuth')
 const router = express.Router()
+const getResponse = require('../../utils/response')
 
 const postList = [...post_db] //POST LIST MUST BE ARRAY
 
@@ -25,54 +26,36 @@ function stringToASCII(str) {
 
 router.get('/', (req, res) => {
     const author = req.params.author
+    const searchAuthor = req.params.search_author
 
     const page = parseInt(req.query.page) || appConstants.CURRENT_PAGE
     const limit = parseInt(req.query.limit) || appConstants.CURRENT_LIMIT
+
     const startIdx = (page - 1) * limit
     const endIdx = page * limit
 
-    const totalPage = Math.ceil(postList.length / limit)
-    const total = postList.length
+    const newPostList = postList
+        .filter((item) => (author && author !== '' ? item.author === author : item))
+        .filter((item) =>
+            searchAuthor && searchAuthor !== ''
+                ? stringToASCII(item.author).includes(stringToASCII(searchAuthor.toLowerCase()))
+                : item
+        )
 
-    if (author) {
-        const newPostList = postList
-            .filter((item) =>
-                stringToASCII(item.author).includes(stringToASCII(author.toLowerCase()))
-            )
-            .slice(startIdx, endIdx)
+    const totalPage = Math.ceil(newPostList.length / limit)
+    const total = newPostList.length
 
-        res.status(200).json({
-            status: 200,
-            message: 'get posts success!',
-            data: {
-                data: newPostList,
-                pagination: {
-                    page: page,
-                    limit: limit,
-                    total: total,
-                    total_page: totalPage,
-                },
-            },
-        })
-
-        return
+    const data = {
+        data: newPostList.slice(startIdx, endIdx),
+        pagination: {
+            page: page,
+            limit: limit,
+            total: total,
+            total_page: totalPage,
+        },
     }
 
-    const newPostList = postList.slice(startIdx, endIdx)
-
-    res.status(200).json({
-        status: 200,
-        message: 'get posts success!',
-        data: {
-            data: newPostList,
-            pagination: {
-                page: page,
-                limit: limit,
-                total: total,
-                total_page: totalPage,
-            },
-        },
-    })
+    getResponse.onSuccess(res, data)
 })
 
 router.get('/:postId', (req, res) => {
@@ -80,18 +63,12 @@ router.get('/:postId', (req, res) => {
     const post = postList.find((item) => item.id === postId)
 
     if (post) {
-        res.status(200).json({
-            message: 'get post success',
-            data: { data: post },
-        })
-
+        getResponse.onSuccess(res, { data: post })
         return
     }
 
-    res.status(400).json({
-        message: 'not found',
-        data: null,
-    })
+    getResponse.onFail(res, { data: null })
+    return
 })
 
 router.post('/', (req, res) => {
@@ -109,12 +86,7 @@ router.post('/', (req, res) => {
 
     const newPostList = [post, ...postList]
     writeToFile(newPostList, './data/post.json')
-
-    res.status(200).json({
-        status: 200,
-        message: 'create post success',
-        data: { data: post },
-    })
+    getResponse.onSuccess(res, { data: post })
 })
 
 router.put('/:postId', (req, res) => {
@@ -146,12 +118,7 @@ router.put('/:postId', (req, res) => {
 
     newPostList[idx] = post
     writeToFile(newPostList, './data/post.json')
-
-    res.status(200).json({
-        status: 200,
-        message: 'Edit post successfull!',
-        data: post,
-    })
+    getResponse.onSuccess(res, { data: post })
 })
 
 router.delete('/:postId', (req, res) => {
