@@ -75,7 +75,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.patch('/:postId', (req, res) => {
+router.put('/:postId', (req, res) => {
     const postId = req.params.postId
     const newPostList = [...postList]
     const idx = newPostList.findIndex((item) => item.id === postId)
