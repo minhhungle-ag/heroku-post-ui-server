@@ -25,8 +25,8 @@ function stringToASCII(str) {
 }
 
 router.get('/', (req, res) => {
-    const author = req.params.author
-    const searchAuthor = req.params.search_author
+    const author = req.query.author
+    const searchAuthor = req.query.search_author
 
     const page = parseInt(req.query.page) || appConstants.CURRENT_PAGE
     const limit = parseInt(req.query.limit) || appConstants.CURRENT_LIMIT
@@ -34,10 +34,12 @@ router.get('/', (req, res) => {
     const startIdx = (page - 1) * limit
     const endIdx = page * limit
 
+    console.log(searchAuthor)
+
     const newPostList = postList
-        .filter((item) => (author && author !== '' ? item.author === author : item))
+        .filter((item) => (author ? item.author === author : item))
         .filter((item) =>
-            searchAuthor && searchAuthor !== ''
+            searchAuthor
                 ? stringToASCII(item.author).includes(stringToASCII(searchAuthor.toLowerCase()))
                 : item
         )
