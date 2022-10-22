@@ -34,8 +34,6 @@ router.get('/', (req, res) => {
     const startIdx = (page - 1) * limit
     const endIdx = page * limit
 
-    console.log(recentPost)
-
     const newPostList = postList
         .filter((item) => (author ? item.author === author : item))
         .filter((item) =>
