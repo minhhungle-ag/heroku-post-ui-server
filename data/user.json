@@ -1,33 +1,10 @@
 [
     {
-        "id": "66e96e75-0d6c-43ec-ad06-3a9e8b33ce5e",
-        "email": "sara1@gmail.com",
-        "password": "$2b$10$JO8CbUx.Oq0z.8FBH8CPVOt6g80akDPB6WlMW5yyjsQRF8/qhOU5a",
-        "role": "user",
-        "fullname": "Sara 1",
-        "age": "25",
-        "description": "Hi, thanks for dropping by! I am a paragraph. Click here to add your own text and edit me. It is easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. Feel free to drag and drop me anywhere you like on your page. I’m a great place for you to tell a story and let your users know a little more about you",
-        "avatar": "https://s-media-cache-ak0.pinimg.com/736x/92/67/2c/92672c7d504fec52d1fa12666154445f.jpg",
-        "gender": "female"
-    },
-    {
-        "id": "f0fcb882-bf56-4b76-a43e-91053edfbd2f",
-        "email": "sara@gmail.com",
-        "password": "$2b$10$QM/vapj9zaCI0DC8KrlJu.nVfSGFrWoJUm5nqYQokUQSNC7lby3GG",
-        "role": "user",
-        "fullname": "Sara",
-        "age": "25",
-        "description": "Hi, thanks for dropping by! I am a paragraph. Click here to add your own text and edit me. It is easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. Feel free to drag and drop me anywhere you like on your page. I’m a great place for you to tell a story and let your users know a little more about you",
-        "avatar": "https://th.bing.com/th/id/R.3ca850114396a9a16f1c161db068b7a6?rik=mkhvb12PUeJmmw&pid=ImgRaw&r=0",
-        "gender": "female"
-    },
-    {
         "id": "2a416250-038f-4123-bf5d-057ba0aac479",
         "email": "admin@gmail.com",
         "password": "$2b$10$.T2JMdx9V9EKUpy4Izhhbu9VuDuG53SsQhHKQQ/Sn.27Bx2tCJx2G",
         "role": "admin",
-        "fullname": "Admin",
-        "age": "25",
+        "fullname": "Anna",
         "description": "Hi, thanks for dropping by! I am a paragraph. Click here to add your own text and edit me. It is easy. Just click “Edit Text” or double click me to add your own content and make changes to the font. Feel free to drag and drop me anywhere you like on your page. I’m a great place for you to tell a story and let your users know a little more about you",
         "avatar": "https://static.wixstatic.com/media/2e2a49_d456d06d41b346d3b36f426cb4142859~mv2.jpg/v1/fill/w_571,h_596,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/2e2a49_d456d06d41b346d3b36f426cb4142859~mv2.jpg",
         "gender": "female"
