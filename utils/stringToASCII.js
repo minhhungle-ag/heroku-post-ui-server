@@ -1,13 +1,13 @@
 module.exports = function stringToASCII(str) {
     try {
         return str
-            .replace(/[àáảãạâầấẩẫậăằắẳẵặ]/gi, 'a')
-            .replace(/[èéẻẽẹêềếểễệ]/gi, 'e')
-            .replace(/[đ]/gi, 'd')
-            .replace(/[ìíỉĩị]/gi, 'i')
-            .replace(/[òóỏõọôồốổỗộơờớởỡợ]/gi, 'o')
-            .replace(/[ùúủũụưừứửữự]/gi, 'u')
-            .replace(/[ỳýỷỹỵ]/gi, 'y')
+            .replace(/[àáảãạâầấẩẫậăằắẳẵặ]/g, 'a')
+            .replace(/[èéẻẽẹêềếểễệ]/g, 'e')
+            .replace(/[đ]/g, 'd')
+            .replace(/[ìíỉĩị]/g, 'i')
+            .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, 'o')
+            .replace(/[ùúủũụưừứửữự]/g, 'u')
+            .replace(/[ỳýỷỹỵ]/g, 'y')
     } catch {
         return ''
     }
