@@ -24,8 +24,8 @@ router.get('/', (req, res) => {
 
     const newUserList = userList.filter((item) =>
         searchKey
-            ? stringToASCII(item.fullname).includes(stringToASCII(searchKey.toLowerCase())) ||
-              stringToASCII(item.email).includes(stringToASCII(searchKey.toLowerCase()))
+            ? stringToASCII(item.fullname).includes(stringToASCII(searchKey)) ||
+              stringToASCII(item.email).includes(stringToASCII(searchKey))
             : item
     )
 
