@@ -8,6 +8,7 @@ const writeToFile = require('../../utils/common')
 const user_db = require('../../data/user.json')
 const appConstants = require('../../constants/appConstants')
 const getResponse = require('../../utils/response')
+const stringToASCII = require('../../utils/stringToASCII')
 
 const router = express.Router()
 
