@@ -5,8 +5,10 @@ const morgan = require('morgan')
 const postRouters = require('./api/routes/post')
 const uploadRouters = require('./api/routes/upload')
 const userRouter = require('./api/routes/user')
+const dotEnv = require('dotenv')
 
 const app = express()
+dotEnv.config()
 
 app.use(morgan('dev'))
 app.use('/uploads', express.static('uploads'))
