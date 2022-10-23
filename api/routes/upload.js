@@ -46,7 +46,7 @@ router.post('/', upload.single('imageUrl'), (req, res, next) => {
     res.status(200).json({
         message: 'upload success',
         data: {
-            imageUrl: `${process.env.STATIC_URL}/uploads/${req.file.filename}`,
+            imageUrl: `https://${req.headers.host}/uploads/${req.file.filename}`,
         },
     })
 })
