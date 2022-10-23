@@ -66,7 +66,7 @@ router.post('/signup', (req, res) => {
             id: uuid(),
             email: req.body.email,
             password: hash,
-            role: 'user',
+            role: req.body.role,
             fullname: req.body.fullname,
             description: req.body.description,
             avatar: req.body.avatar,
@@ -137,7 +137,7 @@ router.get('/:userId', (req, res) => {
     const newUser = {
         id: user.id,
         email: user.email,
-        role: 'user',
+        role: user.role,
         fullname: user.fullname,
         description: user.description,
         avatar: user.avatar,
