@@ -14,18 +14,25 @@ const router = express.Router()
 const userList = [...user_db] //POST LIST MUST BE ARRAY
 
 router.get('/', (req, res) => {
+    const searchKey = req.query.searchKey
     const page = req.query.page || appConstants.CURRENT_PAGE
     const limit = req.query.limit || appConstants.CURRENT_LIMIT
+
     const startIdx = (page - 1) * limit
     const endIdx = page * limit
 
-    const totalPage = Math.ceil(userList.length / limit)
-    const total = userList.length
+    const newUserList = userList.filter((item) =>
+        searchKey
+            ? stringToASCII(item.fullname).includes(stringToASCII(searchKey.toLowerCase())) ||
+              stringToASCII(item.email).includes(stringToASCII(searchKey.toLowerCase()))
+            : item
+    )
 
-    const newUserList = userList.slice(startIdx, endIdx)
+    const totalPage = Math.ceil(newUserList.length / limit)
+    const total = newUserList.length
 
     const data = {
-        data: newUserList,
+        data: newUserList.slice(startIdx, endIdx),
         pagination: {
             page: page,
             limit: limit,

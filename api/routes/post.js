@@ -6,27 +6,13 @@ const appConstants = require('../../constants/appConstants')
 const checkAuth = require('../middleware/checkAuth')
 const router = express.Router()
 const getResponse = require('../../utils/response')
+const stringToASCII = require('../../utils/stringToASCII')
 
 const postList = [...post_db] //POST LIST MUST BE ARRAY
 
-function stringToASCII(str) {
-    try {
-        return str
-            .replace(/[àáảãạâầấẩẫậăằắẳẵặ]/g, 'a')
-            .replace(/[èéẻẽẹêềếểễệ]/g, 'e')
-            .replace(/[đ]/g, 'd')
-            .replace(/[ìíỉĩị]/g, 'i')
-            .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, 'o')
-            .replace(/[ùúủũụưừứửữự]/g, 'u')
-            .replace(/[ỳýỷỹỵ]/g, 'y')
-    } catch {
-        return ''
-    }
-}
-
 router.get('/', (req, res) => {
     const author = req.query.author
-    const searchKey = req.query.searchKey
+    const searchAuthor = req.query.search_author
     const recentId = req.query.recentId
 
     const page = parseInt(req.query.page) || appConstants.CURRENT_PAGE
@@ -38,9 +24,8 @@ router.get('/', (req, res) => {
     const newPostList = postList
         .filter((item) => (author ? item.author === author : item))
         .filter((item) =>
-            searchKey
-                ? stringToASCII(item.author).includes(stringToASCII(searchKey.toLowerCase())) ||
-                  stringToASCII(item.email).includes(stringToASCII(searchKey.toLowerCase()))
+            searchAuthor
+                ? stringToASCII(item.author).includes(stringToASCII(searchAuthor.toLowerCase()))
                 : item
         )
         .filter((item) => (recentId ? item.id !== recentId : item))
