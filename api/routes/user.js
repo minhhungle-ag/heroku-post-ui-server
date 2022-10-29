@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
     const newUserList = userList.filter((item) =>
         searchKey
-            ? stringToASCII(item.fullname.toLowerCase()).includes(
+            ? stringToASCII(item.fullName.toLowerCase()).includes(
                   stringToASCII(searchKey.toLowerCase())
               ) ||
               stringToASCII(item.email.toLowerCase()).includes(
@@ -79,7 +79,7 @@ router.post('/signup', (req, res) => {
             email: req.body.email,
             password: hash,
             role: req.body.role,
-            fullname: req.body.fullname,
+            fullName: req.body.fullName,
             description: req.body.description,
             avatar: req.body.avatar,
             gender: req.body.gender,
@@ -150,7 +150,7 @@ router.get('/:userId', (req, res) => {
         id: user.id,
         email: user.email,
         role: user.role,
-        fullname: user.fullname,
+        fullName: user.fullName,
         description: user.description,
         avatar: user.avatar,
         gender: user.gender,

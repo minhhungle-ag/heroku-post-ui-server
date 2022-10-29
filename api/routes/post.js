@@ -1,13 +1,16 @@
 const express = require('express')
 const uuid = require('uuid').v4
+
 const writeToFile = require('../../utils/common')
 const post_db = require('../../data/post.json')
+const comment_db = require('../../data/comment.json')
 const appConstants = require('../../constants/appConstants')
 const checkAuth = require('../middleware/checkAuth')
-const router = express.Router()
+
 const getResponse = require('../../utils/response')
 const stringToASCII = require('../../utils/stringToASCII')
 
+const router = express.Router()
 const postList = [...post_db] //POST LIST MUST BE ARRAY
 
 router.get('/', (req, res) => {
@@ -72,8 +75,16 @@ router.post('/', checkAuth, (req, res) => {
         updatedAt: new Date(),
     }
 
+    const comments = {
+        postId: post.id,
+        comments: [],
+    }
+
+    const newComment_db = [comments, ...comment_db]
+
     const newPostList = [post, ...postList]
     writeToFile(newPostList, './data/post.json')
+    writeToFile(newComment_db, './data/comment.json')
     getResponse.onSuccess(res, { data: post })
 })
 

@@ -1,11 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const dotEnv = require('dotenv')
 
 const postRouters = require('./api/routes/post')
 const uploadRouters = require('./api/routes/upload')
 const userRouter = require('./api/routes/user')
-const dotEnv = require('dotenv')
+const commentRouters = require('./api/routes/comments')
 
 const app = express()
 dotEnv.config()
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 app.use('/api/posts', postRouters)
 app.use('/api/user', userRouter)
 app.use('/api/upload', uploadRouters)
+app.use('/api/comments', commentRouters)
 
 app.use((req, res, next) => {
     const error = new Error('Not found')
