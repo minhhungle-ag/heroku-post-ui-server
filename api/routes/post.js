@@ -28,7 +28,12 @@ router.get('/', (req, res) => {
         .filter((item) => (author ? item.author === author : item))
         .filter((item) =>
             searchKey
-                ? stringToASCII(item.title).includes(stringToASCII(searchKey.toLowerCase()))
+                ? stringToASCII(item.author.toLowerCase()).includes(
+                      stringToASCII(searchKey.toLowerCase())
+                  ) ||
+                  stringToASCII(item.title.toLowerCase()).includes(
+                      stringToASCII(searchKey.toLowerCase())
+                  )
                 : item
         )
         .filter((item) => (recentId ? item.id !== recentId : item))
