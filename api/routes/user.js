@@ -160,7 +160,7 @@ router.get('/:userId', (req, res) => {
     getResponse.onSuccess(res, { data: newUser })
 })
 
-router.delete('/:userId', (req, res) => {
+router.delete('/:userId', checkAuth, (req, res) => {
     const userId = req.params.userId
     const newUserList = [...userList]
     const idx = newUserList.findIndex((item) => item.id === userId)
