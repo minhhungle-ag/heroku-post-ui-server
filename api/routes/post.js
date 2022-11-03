@@ -15,7 +15,7 @@ const postList = [...post_db] //POST LIST MUST BE ARRAY
 
 router.get('/', (req, res) => {
     const author = req.query.author
-    const searchAuthor = req.query.search_author
+    const searchKey = req.query.searchKey
     const recentId = req.query.recentId
 
     const page = parseInt(req.query.page) || appConstants.CURRENT_PAGE
@@ -27,8 +27,9 @@ router.get('/', (req, res) => {
     const newPostList = postList
         .filter((item) => (author ? item.author === author : item))
         .filter((item) =>
-            searchAuthor
-                ? stringToASCII(item.author).includes(stringToASCII(searchAuthor.toLowerCase()))
+            searchKey
+                ? stringToASCII(item.author).includes(stringToASCII(searchKey.toLowerCase())) ||
+                  stringToASCII(item.title).includes(stringToASCII(searchKey.toLowerCase()))
                 : item
         )
         .filter((item) => (recentId ? item.id !== recentId : item))
