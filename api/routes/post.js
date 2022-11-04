@@ -54,6 +54,27 @@ router.get('/', (req, res) => {
     getResponse.onSuccess(res, data)
 })
 
+router.get('/search', (req, res) => {
+    const searchKey = req.query.searchKey
+
+    const newPostList = postList.filter((item) =>
+        searchKey
+            ? stringToASCII(item.author.toLowerCase()).includes(
+                  stringToASCII(searchKey.toLowerCase())
+              ) ||
+              stringToASCII(item.title.toLowerCase()).includes(
+                  stringToASCII(searchKey.toLowerCase())
+              )
+            : item
+    )
+
+    const data = {
+        data: newPostList,
+    }
+
+    getResponse.onSuccess(res, data)
+})
+
 router.get('/:postId', (req, res) => {
     const postId = req.params.postId
     const post = postList.find((item) => item.id === postId)
