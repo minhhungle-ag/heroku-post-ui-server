@@ -6,7 +6,7 @@ const stringToASCII = require('../../utils/stringToASCII')
 const router = express.Router()
 const postList = [...post_db] //POST LIST MUST BE ARRAY
 
-router.get('/search', (req, res) => {
+router.get('/', (req, res) => {
     const searchKey = req.query.searchKey
 
     const newPostList = postList.filter(
