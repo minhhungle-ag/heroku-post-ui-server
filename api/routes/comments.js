@@ -42,6 +42,7 @@ router.post('/', (req, res) => {
         id: uuid(),
         name: req.body.name,
         comment: req.body.comment,
+        createdAt: new Date(),
     }
 
     const dbIdx = commentDbList.findIndex((item) => item.postId === postId)

@@ -3,7 +3,6 @@ const uuid = require('uuid').v4
 
 const writeToFile = require('../../utils/common')
 const post_db = require('../../data/post.json')
-const comment_db = require('../../data/comment.json')
 const appConstants = require('../../constants/appConstants')
 const checkAuth = require('../middleware/checkAuth')
 
@@ -80,48 +79,9 @@ router.post('/', checkAuth, (req, res) => {
         updatedAt: new Date(),
     }
 
-    const comments = {
-        postId: post.id,
-        comments: [],
-    }
-
-    const newComment_db = [comments, ...comment_db]
-
     const newPostList = [post, ...postList]
-    writeToFile(newPostList, './data/post.json')
-    writeToFile(newComment_db, './data/comment.json')
-    getResponse.onSuccess(res, { data: post })
-})
+    writeToFile(newPostList, './data/spendingPost.json')
 
-router.put('/:postId', checkAuth, (req, res) => {
-    const postId = req.params.postId
-    const newPostList = [...postList]
-    const idx = newPostList.findIndex((item) => item.id === postId)
-
-    if (!newPostList[idx]) {
-        res.status(200).json({
-            status: 200,
-            message: 'post not found!',
-            data: null,
-        })
-
-        return
-    }
-
-    const post = {
-        id: postId,
-        title: req.body.title || newPostList[idx].title,
-        author: req.body.author || newPostList[idx].author,
-        avatar: req.body.avatar || newPostList[idx].avatar,
-        short_description: req.body.short_description || newPostList[idx].short_description,
-        description: req.body.description || newPostList[idx].description,
-        imageUrl: req.body.imageUrl || newPostList[idx].imageUrl,
-        createdAt: newPostList[idx].createdAt,
-        updatedAt: new Date(),
-    }
-
-    newPostList[idx] = post
-    writeToFile(newPostList, './data/post.json')
     getResponse.onSuccess(res, { data: post })
 })
 
@@ -139,7 +99,7 @@ router.delete('/:postId', checkAuth, (req, res) => {
     }
 
     newPostList.splice(idx, 1)
-    writeToFile(newPostList, './data/post.json')
+    writeToFile(newPostList, './data/spendingPost.json')
 
     res.status(200).json({
         message: `Deleted post ${postId} success`,
