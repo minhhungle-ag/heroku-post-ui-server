@@ -8,13 +8,16 @@ const postList = [...post_db] //POST LIST MUST BE ARRAY
 
 router.get('/', (req, res) => {
     const searchKey = req.query.searchKey
-
-    const newPostList = postList.filter(
-        (item) =>
-            stringToASCII(item.author.toLowerCase()).includes(
-                stringToASCII(searchKey.toLowerCase())
-            ) ||
-            stringToASCII(item.title.toLowerCase()).includes(stringToASCII(searchKey.toLowerCase()))
+    console.log('searchKey: ', searchKey)
+    const newPostList = postList.filter((item) =>
+        searchKey
+            ? stringToASCII(item.author.toLowerCase()).includes(
+                  stringToASCII(searchKey.toLowerCase())
+              ) ||
+              stringToASCII(item.title.toLowerCase()).includes(
+                  stringToASCII(searchKey.toLowerCase())
+              )
+            : null
     )
 
     const data = {
