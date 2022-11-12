@@ -9,6 +9,7 @@ const userRouter = require('./api/routes/user')
 const commentRouters = require('./api/routes/comments')
 const pendingRouters = require('./api/routes/spendingPost')
 const searchRouters = require('./api/routes/searchPost')
+const contactRouters = require('./api/routes/contact')
 
 const app = express()
 dotEnv.config()
@@ -39,6 +40,7 @@ app.use('/api/upload', uploadRouters)
 app.use('/api/comments', commentRouters)
 app.use('/api/spending', pendingRouters)
 app.use('/api/search', searchRouters)
+app.use('/api/contacts', contactRouters)
 
 app.use((req, res, next) => {
     const error = new Error('Not found')
