@@ -67,7 +67,7 @@ router.get('/:postId', (req, res) => {
     return
 })
 
-router.post('/', checkAuth, (req, res) => {
+router.post('/', (req, res) => {
     const post = {
         id: uuid(),
         title: req.body.title,
@@ -93,7 +93,7 @@ router.post('/', checkAuth, (req, res) => {
     getResponse.onSuccess(res, { data: post })
 })
 
-router.put('/:postId', checkAuth, (req, res) => {
+router.put('/:postId', (req, res) => {
     const postId = req.params.postId
     const newPostList = [...postList]
     const idx = newPostList.findIndex((item) => item.id === postId)
@@ -125,7 +125,7 @@ router.put('/:postId', checkAuth, (req, res) => {
     getResponse.onSuccess(res, { data: post })
 })
 
-router.delete('/:postId', checkAuth, (req, res) => {
+router.delete('/:postId', (req, res) => {
     const postId = req.params.postId
     const newPostList = [...postList]
     const idx = newPostList.findIndex((item) => item.id === postId)
